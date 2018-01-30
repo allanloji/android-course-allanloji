@@ -5,11 +5,14 @@ import android.app.ListActivity;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Debug;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.allanlopez.marvel.adapters.ItuneArrayAdapter;
+import com.allanlopez.marvel.adapters.MarvelArrayAdapter;
+import com.allanlopez.marvel.pojo.Heroe;
 import com.allanlopez.marvel.pojo.Itune;
 
 import org.json.JSONArray;
@@ -29,21 +32,27 @@ import java.util.ArrayList;
 public class MainActivity extends Activity {
     private  ArrayAdapter<String> arrayAdapter;
     private ItuneArrayAdapter ituneItuneArrayAdapter;
+    private MarvelArrayAdapter heroeArrayAdapter;
     private ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*listView = findViewById(R.id.lista);
+        listView = (ListView) findViewById(R.id.lista);
+        /*
         ituneItuneArrayAdapter = new ItuneArrayAdapter(this, R.layout.itunes_layout, new ArrayList<Itune>());
         listView.setAdapter(ituneItuneArrayAdapter);
 
         new ProcesaJson(ituneItuneArrayAdapter).execute("https://itunes.apple.com/search?term=foals");*/
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new ArrayList<String>());
+
+        heroeArrayAdapter = new MarvelArrayAdapter(this, R.layout.itunes_layout, new ArrayList<Heroe>());
+        listView.setAdapter(heroeArrayAdapter);
+        new MarvelJson(heroeArrayAdapter).execute();
+        /*ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new ArrayList<String>());
         listView.setAdapter(adapter);
-        new MarvelJson(adapter).execute();
+        new MarvelJson(adapter).execute();*/
 
     }
 
@@ -89,25 +98,26 @@ public class MainActivity extends Activity {
     private static char[] HEXCodes = {'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
 
 
-    public class MarvelJson extends AsyncTask< String, Integer,ArrayList<String>>{
-        private ArrayAdapter<String> adapter;
+    public class MarvelJson extends AsyncTask< String, Integer,ArrayList<Heroe>>{
+        private MarvelArrayAdapter adapter;
 
-        public MarvelJson(ArrayAdapter<String> adapter){
+        public MarvelJson(MarvelArrayAdapter adapter){
             this.adapter = adapter;
         }
         @Override
-        protected ArrayList<String> doInBackground(String... urls) {
+        protected ArrayList<Heroe> doInBackground(String... urls) {
 
             /*
             Investiga y reporta qué es md5?
-
+            Es un algoritmo de reducción criptográfico de 128 bits ampliamente usado. Uno de sus
+            usos es el de comprobar que algún archivo no haya sido modificado.
 
 
             */
             String ts = Long.toString(System.currentTimeMillis() / 1000);
-            String apikey = "1681a9eefcf8fbf43de66c59727718da";
-            String hash = md5(ts + "ede49375699321e3736436b53011574333433f40" + "1681a9eefcf8fbf43de66c59727718da");
-            ArrayList<String> arrayList = new ArrayList<>();
+            String apikey = "d9c9993a63b316379f898412b03435a8";
+            String hash = md5(ts + "9441edf550393ac90d79cc4a5f40308c85ae9580" + "d9c9993a63b316379f898412b03435a8");
+            ArrayList<Heroe> arrayList = new ArrayList<>();
 
 
             /*
@@ -164,13 +174,32 @@ public class MainActivity extends Activity {
                 */
                 characterJsonStr = buffer.toString();
 
-                arrayList.add(characterJsonStr);
+                //arrayList.add(characterJsonStr);
 
 
                 /*
 
                     Procesa el JSON y muestra el nombre de cada Marvel Character obtenido
+
+
                 */
+
+                Log.d("Array", characterJsonStr);
+
+                try {
+                    JSONObject jsonObject = new JSONObject(characterJsonStr);
+                    JSONObject jsonObject2 = jsonObject.getJSONObject("data");
+                    JSONArray jsonArray = jsonObject2.getJSONArray("results");
+                    for (int i = 0; i < jsonArray.length(); i++){
+                        JSONObject dato = jsonArray.getJSONObject(i);
+                        Heroe heroe = new Heroe();
+                        heroe.heroeName = dato.getString("name");
+
+                        arrayList.add(heroe);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
 
             } catch (IOException e) {
@@ -188,13 +217,12 @@ public class MainActivity extends Activity {
                 }
             }
 
-            Log.v(LOG_TAG,arrayList.get(0));
-
+            Log.v(LOG_TAG,arrayList.toString());
             return arrayList;
         }
 
         @Override
-        protected void onPostExecute(ArrayList<String> strings) {
+        protected void onPostExecute(ArrayList<Heroe> strings) {
             adapter.clear();
             adapter.addAll(strings);
             adapter.notifyDataSetChanged();
