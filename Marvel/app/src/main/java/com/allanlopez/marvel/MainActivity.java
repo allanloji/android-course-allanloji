@@ -7,13 +7,22 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Debug;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.allanlopez.marvel.adapters.ItuneArrayAdapter;
 import com.allanlopez.marvel.adapters.MarvelArrayAdapter;
 import com.allanlopez.marvel.pojo.Heroe;
 import com.allanlopez.marvel.pojo.Itune;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,10 +43,41 @@ public class MainActivity extends Activity {
     private ItuneArrayAdapter ituneItuneArrayAdapter;
     private MarvelArrayAdapter heroeArrayAdapter;
     private ListView listView;
+    private RequestQueue mQueue;
+    private SeekBar seekBar;
+    private Button search;
+    private TextView seekBarValue;
+    private int offset = 0;
+    private ArrayAdapter<String> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        seekBar = (SeekBar)findViewById(R.id.seekBar);
+        search = (Button)findViewById(R.id.search);
+        seekBarValue = (TextView) findViewById(R.id.seekBarValue);
+        seekBar.setProgress(0);
+        seekBar.setMax(900);
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                progress = progress / 100;
+                progress = progress * 100;
+                seekBarValue.setText(String.valueOf(progress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
         listView = (ListView) findViewById(R.id.lista);
         /*
@@ -47,16 +87,16 @@ public class MainActivity extends Activity {
         new ProcesaJson(ituneItuneArrayAdapter).execute("https://itunes.apple.com/search?term=foals");*/
 
 
-        heroeArrayAdapter = new MarvelArrayAdapter(this, R.layout.itunes_layout, new ArrayList<Heroe>());
-        listView.setAdapter(heroeArrayAdapter);
-        new MarvelJson(heroeArrayAdapter).execute();
-        /*ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new ArrayList<String>());
+        /*heroeArrayAdapter = new MarvelArrayAdapter(this, R.layout.itunes_layout, new ArrayList<Heroe>());
+        listView.setAdapter(heroeArrayAdapter);*/
+        //new MarvelJson(heroeArrayAdapter).execute();
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new ArrayList<String>());
         listView.setAdapter(adapter);
-        new MarvelJson(adapter).execute();*/
-
+        mQueue = VolleySingleton.getInstance(this).getRequestQueue();
+        jsonMarvel(getMarvelString(), adapter);
     }
 
-    public class ProcesaJson extends AsyncTask<String, Integer, ArrayList<Itune>>{
+    /*public class ProcesaJson extends AsyncTask<String, Integer, ArrayList<Itune>>{
         private ItuneArrayAdapter adapter;
         public ProcesaJson(ItuneArrayAdapter adapter){
             this.adapter = adapter;
@@ -90,150 +130,77 @@ public class MainActivity extends Activity {
             adapter.addAll(strings);
             adapter.notifyDataSetChanged();
         }
-    }
+    }*/
 
 
     private final String LOG_TAG = "MARVEL";
 
     private static char[] HEXCodes = {'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
 
+    private void jsonMarvel(String url, final ArrayAdapter<String> adapter){
+        adapter.clear();
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
+                url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONObject data = response.getJSONObject("data");
+                    JSONArray jsonArray = data.getJSONArray("results");
+                    for (int i = 0; i < jsonArray.length(); i++){
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        adapter.add(jsonObject.getString("name"));
+                    }
+                    adapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
 
-    public class MarvelJson extends AsyncTask< String, Integer,ArrayList<Heroe>>{
-        private MarvelArrayAdapter adapter;
-
-        public MarvelJson(MarvelArrayAdapter adapter){
-            this.adapter = adapter;
-        }
-        @Override
-        protected ArrayList<Heroe> doInBackground(String... urls) {
-
-            /*
-            Investiga y reporta qué es md5?
-            Es un algoritmo de reducción criptográfico de 128 bits ampliamente usado. Uno de sus
-            usos es el de comprobar que algún archivo no haya sido modificado.
-
-
-            */
-            String ts = Long.toString(System.currentTimeMillis() / 1000);
-            String apikey = "d9c9993a63b316379f898412b03435a8";
-            String hash = md5(ts + "9441edf550393ac90d79cc4a5f40308c85ae9580" + "d9c9993a63b316379f898412b03435a8");
-            ArrayList<Heroe> arrayList = new ArrayList<>();
+            }
+        });
+        mQueue.add(request);
+    }
+    private String getMarvelString(){
+        String ts = Long.toString(System.currentTimeMillis() / 1000);
+        String apikey = "d9c9993a63b316379f898412b03435a8";
+        String hash = md5(ts + "9441edf550393ac90d79cc4a5f40308c85ae9580" + "d9c9993a63b316379f898412b03435a8");
+        ArrayList<Heroe> arrayList = new ArrayList<>();
 
 
             /*
                 Conexión con el getway de marvel
             */
-            final String CHARACTER_BASE_URL =
-                    "http://gateway.marvel.com/v1/public/characters";
+        final String CHARACTER_BASE_URL =
+                "http://gateway.marvel.com/v1/public/characters";
 
-            HttpURLConnection urlConnection = null;
-            BufferedReader reader = null;
 
             /*
                 Configuración de la petición
             */
-            String characterJsonStr = null;
-            final String TIMESTAMP = "ts";
-            final String API_KEY = "apikey";
-            final String HASH = "hash";
-            final String ORDER = "orderBy";
+        String characterJsonStr = null;
+        final String TIMESTAMP = "ts";
+        final String API_KEY = "apikey";
+        final String HASH = "hash";
+        final String ORDER = "orderBy";
 
-            Uri builtUri;
-            builtUri = Uri.parse(CHARACTER_BASE_URL+"?").buildUpon()
-                    .appendQueryParameter(TIMESTAMP, ts)
-                    .appendQueryParameter(API_KEY, apikey)
-                    .appendQueryParameter(HASH, hash)
-                    .appendQueryParameter(ORDER, "name")
-                    .build();
+        Uri builtUri;
+        builtUri = Uri.parse(CHARACTER_BASE_URL+"?").buildUpon()
+                .appendQueryParameter(TIMESTAMP, ts)
+                .appendQueryParameter(API_KEY, apikey)
+                .appendQueryParameter(HASH, hash)
+                .appendQueryParameter(ORDER, "name")
+                .appendQueryParameter("offset", offset + "")
+                .appendQueryParameter("limit", "100")
+                .build();
 
-            try {
-
-            /*
-                Ejecución de la conexión
-            */
-                URL url = new URL(builtUri.toString());
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
-                urlConnection.connect();
-
-                Log.d(LOG_TAG, "Response: " + urlConnection.getResponseCode() + " - " + urlConnection.getResponseMessage());
-
-                InputStream inputStream = urlConnection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
-
-                reader = new BufferedReader(new InputStreamReader(inputStream));
-
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    buffer.append(line + "\n");
-                }
-
-
-                /*
-                    JSON Obtenido
-                */
-                characterJsonStr = buffer.toString();
-
-                //arrayList.add(characterJsonStr);
-
-
-                /*
-
-                    Procesa el JSON y muestra el nombre de cada Marvel Character obtenido
-
-
-                */
-
-                Log.d("Array", characterJsonStr);
-
-                try {
-                    JSONObject jsonObject = new JSONObject(characterJsonStr);
-                    JSONObject jsonObject2 = jsonObject.getJSONObject("data");
-                    JSONArray jsonArray = jsonObject2.getJSONArray("results");
-                    for (int i = 0; i < jsonArray.length(); i++){
-                        JSONObject dato = jsonArray.getJSONObject(i);
-                        Heroe heroe = new Heroe();
-                        heroe.heroeName = dato.getString("name");
-
-                        arrayList.add(heroe);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-            } catch (IOException e) {
-                Log.e(LOG_TAG, "Error ", e);
-            } finally {
-                if (urlConnection != null) {
-                    urlConnection.disconnect();
-                }
-                if (reader != null) {
-                    try {
-                        reader.close();
-                    } catch (final IOException e) {
-                        Log.e(LOG_TAG, "Error closing stream", e);
-                    }
-                }
-            }
-
-            Log.v(LOG_TAG,arrayList.toString());
-            return arrayList;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Heroe> strings) {
-            adapter.clear();
-            adapter.addAll(strings);
-            adapter.notifyDataSetChanged();
-        }
+       return (builtUri.toString());
     }
 
 
-    /*
-        Investiga y reporta qué es md5:
 
-    */
     public static String md5(String s) {
         try {
             MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
@@ -259,5 +226,10 @@ public class MainActivity extends Activity {
             result[j++] = HEXCodes[b & 0xf];
         }
         return new String(result);
+    }
+
+    public void changeOffset(View view){
+        offset = Integer.parseInt( seekBarValue.getText().toString());
+        jsonMarvel(getMarvelString(), adapter);
     }
 }
