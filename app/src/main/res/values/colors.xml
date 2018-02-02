@@ -6,4 +6,6 @@
     <color name="colorGradientDark">#2F38C3</color>
     <color name="colorGradientClear">#23C7C7</color>
     <color name="light_gray">#e1e1e1</color>
+    <color name="colorHeader">#8fcc76</color>
+    <color name="colorStatusBar">#6faf58</color>
 </resources>

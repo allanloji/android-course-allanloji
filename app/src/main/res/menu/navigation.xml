@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_home" />
+        android:id="@+id/navigation_food"
+        android:icon="@drawable/alimentos_icon"
+        android:title="Alimentos" />
 
 
     <item
-        android:id="@+id/navigation_dashboard"
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_dashboard" />
+        android:id="@+id/navigation_ejercicio"
+        android:icon="@drawable/ejercicio_icon_u"
+        android:title="Ejercicio" />
 
 
 </menu>
