@@ -81,15 +81,15 @@ public class MenuActivity extends AppCompatActivity
         listView.setAdapter(foodArrayAdapter);
         mQueue = VolleySingleton.getInstance(this).getRequestQueue();
         //jsonMarvel(getMarvelString(), marvelArrayAdapter);
-        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Food food = foodArrayAdapter.getItem((int)id);
-                Intent intent = new Intent(MainActivity.this, HeroDetailActivity.class);
-                intent.putExtra("id", md.id);
+                Intent intent = new Intent(MenuActivity.this, FoodDetailActivity.class);
+                intent.putExtra("id", food.id);
                 startActivity(intent);
             }
-        });*/
+        });
     }
 
     @Override

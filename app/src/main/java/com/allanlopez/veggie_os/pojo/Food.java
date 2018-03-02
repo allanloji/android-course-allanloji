@@ -5,5 +5,5 @@ package com.allanlopez.veggie_os.pojo;
  */
 
 public class Food {
-    public String name, calories, imgUrl;
+    public String name, calories, imgUrl, id;
 }
