@@ -1,0 +1,30 @@
+{
+  "food":[
+    {
+      "name": "Donut",
+      "calories": "200kcal",
+      "imgUrl": "http://pngimg.com/uploads/donut/donut_PNG85.png"
+    },
+    {
+      "name": "Burger",
+      "calories": "500kcal",
+      "imgUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Jumbo_Burger_The_Home_Chef_India.jpg/800px-Jumbo_Burger_The_Home_Chef_India.jpg"
+    },
+    {
+      "name": "Pizza",
+      "calories": "500kcal",
+      "imgUrl": "https://cdn.pixabay.com/photo/2016/04/21/22/50/pizza-1344720_960_720.jpg"
+    },
+    {
+      "name": "Apple",
+      "calories": "50kcal",
+      "imgUrl": "http://pngimg.com/uploads/apple/apple_PNG12405.png"
+    },
+    {
+      "name": "Brocolli",
+      "calories": "20kcal",
+      "imgUrl": "http://maxpixel.freegreatpicture.com/static/photo/1x/Broccoli-Brocoli-Broccolli-Calories-Appetite-1238251.jpg"
+    },
+
+  ]
+}
