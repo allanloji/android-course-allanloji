@@ -59,10 +59,23 @@
     <TextView
         android:id="@+id/foodDescription"
         android:layout_width="361dp"
-        android:layout_height="414dp"
+        android:layout_height="185dp"
         android:layout_marginTop="32dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/foodImage" />
+
+    <TextView
+        android:id="@+id/exerciseSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Recommended Exercises"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/foodDescription" />
 </android.support.constraint.ConstraintLayout>

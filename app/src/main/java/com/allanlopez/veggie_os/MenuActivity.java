@@ -1,5 +1,7 @@
 package com.allanlopez.veggie_os;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -35,9 +37,7 @@ import java.util.ArrayList;
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private FoodArrayAdapter foodArrayAdapter;
-    private ListView listView;
-    private RequestQueue mQueue;
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -77,21 +77,13 @@ public class MenuActivity extends AppCompatActivity
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        listView = (ListView) findViewById(R.id.foodList);
 
-        foodArrayAdapter = getAdapter();
-        listView.setAdapter(foodArrayAdapter);
-        mQueue = VolleySingleton.getInstance(this).getRequestQueue();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.food, new FoodListFragment());
+        fragmentTransaction.commit();
         //jsonMarvel(getMarvelString(), marvelArrayAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Food food = foodArrayAdapter.getItem((int)id);
-                Intent intent = new Intent(MenuActivity.this, FoodDetailActivity.class);
-                intent.putExtra("id", food.id);
-                startActivity(intent);
-            }
-        });
+
     }
 
     @Override
@@ -136,41 +128,7 @@ public class MenuActivity extends AppCompatActivity
         return true;
     }
 
-    private FoodArrayAdapter getAdapter(){
-        FoodArrayAdapter adapter = new FoodArrayAdapter(
-                this, R.layout.food_layout,
-                new ArrayList<Food>());
-        try {
-            JSONObject jsonObject = new JSONObject(getJSON());
-            JSONArray jsonArray = jsonObject.getJSONArray("food");
-            for (int i = 0; i < jsonArray.length(); i++){
-                JSONObject jsonObject01 = jsonArray.getJSONObject(i);
-                    Food food = new Food();
-                    food.id = jsonObject01.getString("id");
-                    food.name = jsonObject01.getString("name");
-                    food.calories = jsonObject01.getString("calories");
-                    food.imgUrl = jsonObject01.getString("imgUrl");
-                    adapter.add(food);
 
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return adapter;
-    }
 
-    /* Json Local */
-    private String getJSON(){
-        try {
-            InputStream inputStream = this.getAssets().open("food.json");
-            int s = inputStream.available();
-            byte[] archivo = new byte[s];
-            inputStream.read(archivo);
-            inputStream.close();
-            return new String(archivo);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
+
 }
