@@ -22,8 +22,12 @@
 
     <ListView
         android:id="@+id/foodList"
+        android:divider="@null"
+        android:dividerHeight="10dp"
         android:layout_width="395dp"
         android:layout_height="632dp"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp" />
 </android.support.constraint.ConstraintLayout>
