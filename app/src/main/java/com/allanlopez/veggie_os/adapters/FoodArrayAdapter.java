@@ -3,7 +3,6 @@ package com.allanlopez.veggie_os.adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,9 +41,9 @@ public class FoodArrayAdapter extends ArrayAdapter<Food>{
                     .inflate(R.layout.food_layout, parent, false);
         }
 
-        TextView textView = (TextView) convertView.findViewById(R.id.foodName);
+        TextView textView = (TextView) convertView.findViewById(R.id.exerciseName);
         TextView calories = (TextView) convertView.findViewById(R.id.calories);
-        NetworkImageView networkImageView = (NetworkImageView) convertView.findViewById(R.id.foodImage);
+        NetworkImageView networkImageView = (NetworkImageView) convertView.findViewById(R.id.exerciseImage);
         textView.setText(food.name);
         calories.setText(food.calories);
         RequestQueue requestQueue = VolleySingleton.getInstance(context).getRequestQueue();

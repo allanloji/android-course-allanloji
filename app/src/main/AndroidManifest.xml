@@ -22,7 +22,8 @@
             android:name=".MenuActivity"
             android:label="Home"
             android:theme="@style/AppTheme" />
-        <activity android:name=".FoodDetailActivity"></activity>
+        <activity android:name=".FoodDetailActivity" />
+        <activity android:name=".ExerciseDetailActivity"></activity>
     </application>
 
 </manifest>

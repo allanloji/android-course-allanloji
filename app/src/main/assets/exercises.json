@@ -1,0 +1,48 @@
+{
+  "exercise":[
+    {
+      "id": "0",
+      "name": "Squats",
+      "time": "2 minutes",
+      "calories": "10kcal",
+      "imgUrl": "https://qph.fs.quoracdn.net/main-qimg-ce7549ea00e2a5460fefd8f75063fc23.webp",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam bibendum et elit in dictum. Nunc feugiat, mauris vel tristique commodo, purus purus tristique ex, nec semper mauris leo in enim. Integer posuere erat nisl, in venenatis ipsum egestas sed. Nam pellentesque elit ac ex malesuada, a viverra nunc vulputate. Maecenas placerat orci suscipit laoreet fringilla. Aliquam erat volutpat. Donec vehicula dolor in justo rhoncus suscipit. In massa quam, semper sed dolor vitae, volutpat viverra felis"
+    },
+    {
+      "id": "1",
+      "name": "Climbers",
+      "time": "2 minutes",
+      "calories": "50kcal",
+      "imgUrl": "http://cdn1.coachmag.co.uk/sites/coachmag/files/styles/16x9_746/public/2016/04/mountain_climbers.jpg?itok=-303fFBl&timestamp=1460621157",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam bibendum et elit in dictum. Nunc feugiat, mauris vel tristique commodo, purus purus tristique ex, nec semper mauris leo in enim. Integer posuere erat nisl, in venenatis ipsum egestas sed. Nam pellentesque elit ac ex malesuada, a viverra nunc vulputate. Maecenas placerat orci suscipit laoreet fringilla. Aliquam erat volutpat. Donec vehicula dolor in justo rhoncus suscipit. In massa quam, semper sed dolor vitae, volutpat viverra felis"
+
+    },
+    {
+      "id": "2",
+      "name": "Pull-ups",
+      "time": "2 minutes",
+      "calories": "50kcal",
+      "imgUrl": "https://cdn-mf0.heartyhosting.com/sites/mensfitness.com/files/styles/wide_videos/public/my-goal-pullup-main.jpg?itok=QwBzGmrD",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam bibendum et elit in dictum. Nunc feugiat, mauris vel tristique commodo, purus purus tristique ex, nec semper mauris leo in enim. Integer posuere erat nisl, in venenatis ipsum egestas sed. Nam pellentesque elit ac ex malesuada, a viverra nunc vulputate. Maecenas placerat orci suscipit laoreet fringilla. Aliquam erat volutpat. Donec vehicula dolor in justo rhoncus suscipit. In massa quam, semper sed dolor vitae, volutpat viverra felis"
+
+    },
+    {
+      "id": "3",
+      "name": "Push-ups",
+      "time": "2 minutes",
+      "calories": "30kcal",
+      "imgUrl": "https://cdn-mf0.heartyhosting.com/sites/mensfitness.com/files/styles/wide_videos/public/push_ups_main_0.jpg?itok=gB2bDA6H",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam bibendum et elit in dictum. Nunc feugiat, mauris vel tristique commodo, purus purus tristique ex, nec semper mauris leo in enim. Integer posuere erat nisl, in venenatis ipsum egestas sed. Nam pellentesque elit ac ex malesuada, a viverra nunc vulputate. Maecenas placerat orci suscipit laoreet fringilla. Aliquam erat volutpat. Donec vehicula dolor in justo rhoncus suscipit. In massa quam, semper sed dolor vitae, volutpat viverra felis"
+
+    },
+    {
+      "id": "4",
+      "name": "Sit-ups",
+      "time": "2 minutes",
+      "calories": "20kcal",
+      "imgUrl": "http://www.directlyfitness.com/store/wp-content/uploads/2011/07/Sit-ups-150x150.jpg",
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam bibendum et elit in dictum. Nunc feugiat, mauris vel tristique commodo, purus purus tristique ex, nec semper mauris leo in enim. Integer posuere erat nisl, in venenatis ipsum egestas sed. Nam pellentesque elit ac ex malesuada, a viverra nunc vulputate. Maecenas placerat orci suscipit laoreet fringilla. Aliquam erat volutpat. Donec vehicula dolor in justo rhoncus suscipit. In massa quam, semper sed dolor vitae, volutpat viverra felis"
+    }
+
+  ]
+}

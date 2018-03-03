@@ -46,10 +46,16 @@ public class MenuActivity extends AppCompatActivity
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_food:
-
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.food, new FoodListFragment());
+                    fragmentTransaction.commit();
                     return true;
                 case R.id.navigation_ejercicio:
-
+                    fragmentManager = getFragmentManager();
+                     fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.food, new ExerciseListFragment());
+                    fragmentTransaction.commit();
                     return true;
 
             }

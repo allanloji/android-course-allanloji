@@ -17,34 +17,36 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class FoodDetailActivity extends AppCompatActivity {
-    private TextView name, description, calories;
-    private NetworkImageView foodImg;
+public class ExerciseDetailActivity extends AppCompatActivity {
+
+    private TextView name, description, calories, time;
+    private NetworkImageView exerciseImg;
     private RequestQueue mQueue;
-    private String foodId;
+    private String exerciseId;
     private String imgUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_food_detail);
+        setContentView(R.layout.activity_exercise_detail);
         name = (TextView) findViewById(R.id.exerciseName);
-        foodImg = (NetworkImageView) findViewById(R.id.exerciseImage);
-        calories = (TextView) findViewById(R.id.calories);
+        exerciseImg = (NetworkImageView) findViewById(R.id.exerciseImage);
+        calories = (TextView) findViewById(R.id.exerciseCalories);
         description = (TextView) findViewById(R.id.exerciseDescription);
+        time = (TextView) findViewById(R.id.timeExercise);
 
         mQueue = VolleySingleton.getInstance(this).getRequestQueue();
 
-        foodId = (String) getIntent().getSerializableExtra( "id");
+        exerciseId = (String) getIntent().getSerializableExtra( "id");
 
-        fillFood();
+        fillExercise();
 
 
     }
 
     private String getJSON(){
         try {
-            InputStream inputStream = this.getAssets().open("food.json");
+            InputStream inputStream = this.getAssets().open("exercises.json");
             int s = inputStream.available();
             byte[] archivo = new byte[s];
             inputStream.read(archivo);
@@ -73,18 +75,19 @@ public class FoodDetailActivity extends AppCompatActivity {
 
                     }
                 });
-        foodImg.setImageUrl(url, imageLoader);
+        exerciseImg.setImageUrl(url, imageLoader);
     }
 
-    private void fillFood(){
+    private void fillExercise(){
         try{
             JSONObject jsonObject = new JSONObject(getJSON());
-            JSONArray jsonArray = jsonObject.getJSONArray("food");
-            JSONObject jsonObject01 = jsonArray.getJSONObject(Integer.parseInt(foodId));
+            JSONArray jsonArray = jsonObject.getJSONArray("exercise");
+            JSONObject jsonObject01 = jsonArray.getJSONObject(Integer.parseInt(exerciseId));
             name.setText(jsonObject01.getString("name"));
             calories.setText(jsonObject01.getString("calories"));
             imgUrl = jsonObject01.getString("imgUrl");
             description.setText(jsonObject01.getString("description"));
+            time.setText(jsonObject01.getString("time"));
 
             LoadImage(imgUrl);
 

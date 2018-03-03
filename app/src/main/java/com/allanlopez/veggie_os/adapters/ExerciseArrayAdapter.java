@@ -39,12 +39,16 @@ public class ExerciseArrayAdapter extends ArrayAdapter<Exercise> {
         Exercise exercise = getItem(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(context)
-                    .inflate(R.layout.food_layout, parent, false);
+                    .inflate(R.layout.exercise_layout, parent, false);
         }
 
         TextView textView = (TextView) convertView.findViewById(R.id.exerciseName);
+        TextView calories = (TextView) convertView.findViewById(R.id.exerciseCalories);
+        TextView time = (TextView) convertView.findViewById(R.id.exerciseTime);
         NetworkImageView networkImageView = (NetworkImageView) convertView.findViewById(R.id.exerciseImage);
         textView.setText(exercise.name);
+        calories.setText(exercise.calories);
+        time.setText(exercise.time);
         RequestQueue requestQueue = VolleySingleton.getInstance(context).getRequestQueue();
         ImageLoader imageLoader = new ImageLoader(requestQueue,
                 new ImageLoader.ImageCache() {
