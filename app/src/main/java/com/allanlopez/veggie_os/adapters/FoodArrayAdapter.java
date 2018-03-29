@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.allanlopez.veggie_os.FoodListFragment;
 import com.allanlopez.veggie_os.R;
 import com.allanlopez.veggie_os.VolleySingleton;
 import com.allanlopez.veggie_os.pojo.Food;
@@ -44,8 +45,8 @@ public class FoodArrayAdapter extends ArrayAdapter<Food>{
         TextView textView = (TextView) convertView.findViewById(R.id.exerciseName);
         TextView calories = (TextView) convertView.findViewById(R.id.calories);
         NetworkImageView networkImageView = (NetworkImageView) convertView.findViewById(R.id.exerciseImage);
-        textView.setText(food.name);
-        calories.setText(food.calories);
+        textView.setText(food.food_name);
+        calories.setText( "" + food.nf_calories);
         RequestQueue requestQueue = VolleySingleton.getInstance(context).getRequestQueue();
         ImageLoader imageLoader = new ImageLoader(requestQueue,
                 new ImageLoader.ImageCache() {
@@ -62,7 +63,7 @@ public class FoodArrayAdapter extends ArrayAdapter<Food>{
 
                     }
                 });
-        networkImageView.setImageUrl(food.imgUrl, imageLoader);
+        networkImageView.setImageUrl(food.photo, imageLoader);
 
         return convertView;
     }

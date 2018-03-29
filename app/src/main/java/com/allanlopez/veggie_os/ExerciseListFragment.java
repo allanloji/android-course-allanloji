@@ -81,9 +81,9 @@ public class ExerciseListFragment extends ListFragment {
                 Exercise exercise = new Exercise();
                 exercise.id = jsonObject01.getString("id");
                 exercise.name = jsonObject01.getString("name");
-                exercise.calories = jsonObject01.getString("calories");
-                exercise.imgUrl = jsonObject01.getString("imgUrl");
-                exercise.time = jsonObject01.getString("time");
+                exercise.nf_calories = jsonObject01.getString("calories");
+                exercise.photo = jsonObject01.getString("imgUrl");
+                exercise.duration_min = jsonObject01.getString("time");
                 adapter.add(exercise);
 
             }

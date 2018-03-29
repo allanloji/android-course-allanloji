@@ -15,7 +15,12 @@ import android.widget.ListView;
 
 import com.allanlopez.veggie_os.adapters.FoodArrayAdapter;
 import com.allanlopez.veggie_os.pojo.Food;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,14 +28,23 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class FoodListFragment extends ListFragment {
     private FoodArrayAdapter foodArrayAdapter;
     private RequestQueue mQueue;
     private ListView listView;
+    private String[] commonFood = {"apple", "taco meat", "donut", "pizza", "soda","hotdog",
+                                    "mango", "cheesecake", "ham sandwich", "apple salad" };
+    private String apiUrl = "https://trackapi.nutritionix.com/v2";
+    private String xappid = "8b9ab5be";
+    private String xappkey = "48f0d8f99f2f1f990a69f309613c814d";
+
 
     public FoodListFragment() {
         // Required empty public constructor
@@ -48,17 +62,17 @@ public class FoodListFragment extends ListFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        foodArrayAdapter = getAdapter();
+        foodArrayAdapter = new FoodArrayAdapter(this.getActivity(), R.layout.fragment_food_list, new ArrayList<Food>());
         setListAdapter(foodArrayAdapter);
         mQueue = VolleySingleton.getInstance(getActivity()).getRequestQueue();
-
+        jsonFood(apiUrl+ "/search/instant?query=apple", foodArrayAdapter);
         listView = getListView();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Food food = foodArrayAdapter.getItem((int)id);
                 Intent intent = new Intent(getActivity(), FoodDetailActivity.class);
-                intent.putExtra("id", food.id);
+                intent.putExtra("id", food.food_name);
                 startActivity(intent);
             }
         });
@@ -67,41 +81,47 @@ public class FoodListFragment extends ListFragment {
 
     }
 
-    private FoodArrayAdapter getAdapter(){
-        FoodArrayAdapter adapter = new FoodArrayAdapter(
-                getActivity(), R.layout.food_layout,
-                new ArrayList<Food>());
-        try {
-            JSONObject jsonObject = new JSONObject(getJSON());
-            JSONArray jsonArray = jsonObject.getJSONArray("food");
-            for (int i = 0; i < jsonArray.length(); i++){
-                JSONObject jsonObject01 = jsonArray.getJSONObject(i);
-                Food food = new Food();
-                food.id = jsonObject01.getString("id");
-                food.name = jsonObject01.getString("name");
-                food.calories = jsonObject01.getString("calories");
-                food.imgUrl = jsonObject01.getString("imgUrl");
-                adapter.add(food);
+
+
+
+    /* Json WEB*/
+    //-----GET Food
+    private void jsonFood(String url, final FoodArrayAdapter adapter){
+        adapter.clear();
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
+                url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray jsonArray = response.getJSONArray("common");
+                    JSONObject jsonObject = jsonArray.getJSONObject(0);
+                    JSONObject photo = jsonObject.getJSONObject("photo");
+                    Food food = new Food();
+                    food.food_name = jsonObject.getString("food_name");
+                    food.serving_unit = jsonObject.getString("serving_unit");
+                    food.serving_qty = jsonObject.getString("serving_qty");
+                    food.photo = photo.getString("thumb");
+                    adapter.add(food);
+                    adapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
 
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return adapter;
-    }
-
-    /* Json Local */
-    private String getJSON(){
-        try {
-            InputStream inputStream = getActivity().getAssets().open("food.json");
-            int s = inputStream.available();
-            byte[] archivo = new byte[s];
-            inputStream.read(archivo);
-            inputStream.close();
-            return new String(archivo);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "";
+        })
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("x-app-id", xappid);
+                headers.put("x-app-key", xappkey);
+                return headers;
+            }
+        };
+        mQueue.add(request);
     }
 }

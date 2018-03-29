@@ -47,8 +47,8 @@ public class ExerciseArrayAdapter extends ArrayAdapter<Exercise> {
         TextView time = (TextView) convertView.findViewById(R.id.exerciseTime);
         NetworkImageView networkImageView = (NetworkImageView) convertView.findViewById(R.id.exerciseImage);
         textView.setText(exercise.name);
-        calories.setText(exercise.calories);
-        time.setText(exercise.time);
+        calories.setText(exercise.nf_calories);
+        time.setText(exercise.duration_min);
         RequestQueue requestQueue = VolleySingleton.getInstance(context).getRequestQueue();
         ImageLoader imageLoader = new ImageLoader(requestQueue,
                 new ImageLoader.ImageCache() {
@@ -65,7 +65,7 @@ public class ExerciseArrayAdapter extends ArrayAdapter<Exercise> {
 
                     }
                 });
-        networkImageView.setImageUrl(exercise.imgUrl, imageLoader);
+        networkImageView.setImageUrl(exercise.photo, imageLoader);
 
         return convertView;
     }
