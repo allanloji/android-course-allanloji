@@ -39,8 +39,8 @@ public class FoodListFragment extends ListFragment {
     private FoodArrayAdapter foodArrayAdapter;
     private RequestQueue mQueue;
     private ListView listView;
-    private String[] commonFood = {"apple", "taco meat", "donut", "pizza", "soda","hotdog",
-                                    "mango", "cheesecake", "ham sandwich", "apple salad" };
+    private String[] commonFood = {"Apple", "Taco meat", "Donut", "Pizza", "Soda","Hotdog",
+                                    "Mango", "Cheesecake", "Ham sandwich", "Apple salad" };
     private String apiUrl = "https://trackapi.nutritionix.com/v2";
     private String xappid = "8b9ab5be";
     private String xappkey = "48f0d8f99f2f1f990a69f309613c814d";
@@ -65,7 +65,11 @@ public class FoodListFragment extends ListFragment {
         foodArrayAdapter = new FoodArrayAdapter(this.getActivity(), R.layout.fragment_food_list, new ArrayList<Food>());
         setListAdapter(foodArrayAdapter);
         mQueue = VolleySingleton.getInstance(getActivity()).getRequestQueue();
-        jsonFood(apiUrl+ "/search/instant?query=apple", foodArrayAdapter);
+        for (int i = 0; i < commonFood.length; i++){
+            jsonFood(apiUrl+ "/search/instant?query=" + commonFood[i], foodArrayAdapter);
+        }
+
+
         listView = getListView();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

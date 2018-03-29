@@ -22,9 +22,8 @@
                 android:id="@+id/exerciseName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
+                android:layout_alignTop="@+id/exerciseImage"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="17dp"
                 android:text="Food Name"
                 android:textColor="@android:color/background_dark"
                 android:textSize="30sp"
@@ -33,14 +32,14 @@
                 app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
             <TextView
-                android:id="@+id/calories"
+                android:id="@+id/serving"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/exerciseName"
                 android:layout_alignStart="@+id/exerciseName"
                 android:layout_below="@+id/exerciseName"
                 android:layout_marginTop="17dp"
-                android:text="Calories"
+                android:text="Serving"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/guideline3"
                 app:layout_constraintEnd_toStartOf="@+id/guideline"

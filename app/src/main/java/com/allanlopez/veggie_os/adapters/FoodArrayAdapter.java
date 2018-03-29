@@ -43,10 +43,10 @@ public class FoodArrayAdapter extends ArrayAdapter<Food>{
         }
 
         TextView textView = (TextView) convertView.findViewById(R.id.exerciseName);
-        TextView calories = (TextView) convertView.findViewById(R.id.calories);
+        TextView serving = (TextView) convertView.findViewById(R.id.serving);
         NetworkImageView networkImageView = (NetworkImageView) convertView.findViewById(R.id.exerciseImage);
         textView.setText(food.food_name);
-        calories.setText( "" + food.nf_calories);
+        serving.setText( food.serving_qty + " " + food.serving_unit);
         RequestQueue requestQueue = VolleySingleton.getInstance(context).getRequestQueue();
         ImageLoader imageLoader = new ImageLoader(requestQueue,
                 new ImageLoader.ImageCache() {
