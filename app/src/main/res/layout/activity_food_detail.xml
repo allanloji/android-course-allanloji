@@ -7,7 +7,7 @@
     tools:context="com.allanlopez.veggie_os.FoodDetailActivity">
 
     <com.android.volley.toolbox.NetworkImageView
-        android:id="@+id/exerciseImage"
+        android:id="@+id/foodImage"
         android:layout_width="139dp"
         android:layout_height="135dp"
         android:layout_marginStart="24dp"
@@ -17,7 +17,7 @@
         app:srcCompat="@drawable/donut" />
 
     <TextView
-        android:id="@+id/exerciseName"
+        android:id="@+id/foodName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -39,7 +39,7 @@
         android:layout_marginTop="116dp"
         android:text="Calories"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/exerciseImage"
+        app:layout_constraintStart_toEndOf="@+id/foodImage"
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.constraint.Guideline
@@ -64,7 +64,7 @@
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/exerciseImage" />
+        app:layout_constraintTop_toBottomOf="@+id/foodImage" />
 
     <TextView
         android:id="@+id/exerciseSubtitle"

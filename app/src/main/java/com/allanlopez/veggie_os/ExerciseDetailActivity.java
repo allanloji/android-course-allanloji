@@ -29,8 +29,8 @@ public class ExerciseDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_detail);
-        name = (TextView) findViewById(R.id.exerciseName);
-        exerciseImg = (NetworkImageView) findViewById(R.id.exerciseImage);
+        name = (TextView) findViewById(R.id.foodName);
+        exerciseImg = (NetworkImageView) findViewById(R.id.foodImage);
         calories = (TextView) findViewById(R.id.exerciseCalories);
         description = (TextView) findViewById(R.id.exerciseDescription);
         time = (TextView) findViewById(R.id.timeExercise);

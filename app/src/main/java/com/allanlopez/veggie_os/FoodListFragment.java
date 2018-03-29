@@ -76,7 +76,8 @@ public class FoodListFragment extends ListFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Food food = foodArrayAdapter.getItem((int)id);
                 Intent intent = new Intent(getActivity(), FoodDetailActivity.class);
-                intent.putExtra("id", food.food_name);
+                intent.putExtra("food_name", food.food_name);
+                intent.putExtra("food_photo", food.photo);
                 startActivity(intent);
             }
         });

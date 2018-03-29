@@ -19,35 +19,35 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/exerciseName"
+                android:id="@+id/foodName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/exerciseImage"
+                android:layout_alignTop="@+id/foodImage"
                 android:layout_centerHorizontal="true"
                 android:text="Food Name"
                 android:textColor="@android:color/background_dark"
                 android:textSize="30sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/exerciseImage"
+                app:layout_constraintStart_toEndOf="@+id/foodImage"
                 app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
             <TextView
                 android:id="@+id/serving"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/exerciseName"
-                android:layout_alignStart="@+id/exerciseName"
-                android:layout_below="@+id/exerciseName"
+                android:layout_alignLeft="@+id/foodName"
+                android:layout_alignStart="@+id/foodName"
+                android:layout_below="@+id/foodName"
                 android:layout_marginTop="17dp"
                 android:text="Serving"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/guideline3"
                 app:layout_constraintEnd_toStartOf="@+id/guideline"
-                app:layout_constraintTop_toBottomOf="@+id/exerciseName"
+                app:layout_constraintTop_toBottomOf="@+id/foodName"
                 app:layout_constraintVertical_bias="0.023" />
 
             <com.android.volley.toolbox.NetworkImageView
-                android:id="@+id/exerciseImage"
+                android:id="@+id/foodImage"
                 android:layout_width="82dp"
                 android:layout_height="90dp"
                 android:layout_marginBottom="8dp"

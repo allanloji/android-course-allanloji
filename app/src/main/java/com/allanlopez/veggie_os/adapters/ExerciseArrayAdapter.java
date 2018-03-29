@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.allanlopez.veggie_os.R;
 import com.allanlopez.veggie_os.VolleySingleton;
 import com.allanlopez.veggie_os.pojo.Exercise;
-import com.allanlopez.veggie_os.pojo.Food;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
@@ -42,13 +41,13 @@ public class ExerciseArrayAdapter extends ArrayAdapter<Exercise> {
                     .inflate(R.layout.exercise_layout, parent, false);
         }
 
-        TextView textView = (TextView) convertView.findViewById(R.id.exerciseName);
+        TextView textView = (TextView) convertView.findViewById(R.id.foodName);
         TextView calories = (TextView) convertView.findViewById(R.id.exerciseCalories);
         TextView time = (TextView) convertView.findViewById(R.id.exerciseTime);
-        NetworkImageView networkImageView = (NetworkImageView) convertView.findViewById(R.id.exerciseImage);
+        NetworkImageView networkImageView = (NetworkImageView) convertView.findViewById(R.id.foodImage);
         textView.setText(exercise.name);
-        calories.setText(exercise.nf_calories);
-        time.setText(exercise.duration_min);
+        calories.setText("Calories: " + exercise.nf_calories);
+        time.setText("Time " + exercise.duration_min);
         RequestQueue requestQueue = VolleySingleton.getInstance(context).getRequestQueue();
         ImageLoader imageLoader = new ImageLoader(requestQueue,
                 new ImageLoader.ImageCache() {
