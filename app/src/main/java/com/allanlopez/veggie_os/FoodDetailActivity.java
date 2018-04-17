@@ -1,6 +1,7 @@
 package com.allanlopez.veggie_os;
 
 import android.graphics.Bitmap;
+import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.LruCache;
@@ -24,7 +25,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FoodDetailActivity extends AppCompatActivity {
-    private TextView name, description, calories;
+    private TextView name, calories, serving, total_fat, saturated_fat, cholesterol, sodium, carbohydrate
+    , dietary, protein, potassium, walkMinutes, runMinutes, cycleMinutes;
     private NetworkImageView foodImg;
     private RequestQueue mQueue;
     private String foodName, foodPhoto;
@@ -40,7 +42,18 @@ public class FoodDetailActivity extends AppCompatActivity {
         name = (TextView) findViewById(R.id.foodName);
         foodImg = (NetworkImageView) findViewById(R.id.foodImage);
         calories = (TextView) findViewById(R.id.calories);
-        description = (TextView) findViewById(R.id.exerciseDescription);
+        serving = (TextView) findViewById(R.id.serving);
+        total_fat = (TextView) findViewById(R.id.totalFat);
+        saturated_fat = (TextView) findViewById(R.id.saturatedFat);
+        cholesterol = (TextView) findViewById(R.id.cholesterol);
+        sodium = (TextView) findViewById(R.id.sodium);
+        carbohydrate = (TextView) findViewById(R.id.carbohidrates);
+        dietary = (TextView) findViewById(R.id.dietary);
+        protein = (TextView) findViewById(R.id.protein);
+        potassium = (TextView) findViewById(R.id.potassium);
+        walkMinutes = (TextView) findViewById(R.id.walkMinutes);
+        runMinutes = (TextView) findViewById(R.id.runMinutes);
+        cycleMinutes = (TextView) findViewById(R.id.cycleMinutes);
 
         mQueue = VolleySingleton.getInstance(this).getRequestQueue();
 
@@ -85,9 +98,19 @@ public class FoodDetailActivity extends AppCompatActivity {
                     food.nf_protein = jsonObject.getString("nf_protein");
                     food.nf_potassium = jsonObject.getString("nf_potassium");
                     name.setText(food.food_name);
-                    calories.setText(food.nf_calories + "");
                     imgUrl = food.photo;
-
+                    name.setText(food.food_name.substring(0,1).toUpperCase() + food.food_name.substring(1));
+                    calories.setText(food.nf_calories + "");
+                    serving.setText(food.serving_qty + " " + food.serving_unit);
+                    total_fat.setText(food.nf_total_fat);
+                    saturated_fat.setText(food.nf_saturated_fat);
+                    cholesterol.setText(food.nf_cholesterol);
+                    sodium.setText(food.nf_sodium);
+                    carbohydrate.setText(food.nf_total_carbohydrate);
+                    dietary.setText(food.nf_dietary_fiber);
+                    protein.setText(food.nf_protein);
+                    potassium.setText(food.nf_potassium);
+                    CalculateCalories((Double) food.nf_calories);
                     LoadImage(imgUrl);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -131,6 +154,18 @@ public class FoodDetailActivity extends AppCompatActivity {
                     }
                 });
         foodImg.setImageUrl(url, imageLoader);
+    }
+
+    public void CalculateCalories(double calories){
+        int walk = 0;
+        int run = 0;
+        int cycle = 0;
+        walk = (int) ((calories*25) / 100);
+        run = (int) ((calories*10) / 100);
+        cycle = (int) ((calories*15) / 100);
+        walkMinutes.setText(walk + " min");
+        runMinutes.setText(run + " min");
+        cycleMinutes.setText(cycle + " min");
     }
 
 }

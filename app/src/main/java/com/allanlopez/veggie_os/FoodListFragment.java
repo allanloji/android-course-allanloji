@@ -78,6 +78,7 @@ public class FoodListFragment extends ListFragment {
                 Intent intent = new Intent(getActivity(), FoodDetailActivity.class);
                 intent.putExtra("food_name", food.food_name);
                 intent.putExtra("food_photo", food.photo);
+                intent.putExtra("food", food);
                 startActivity(intent);
             }
         });
@@ -103,6 +104,7 @@ public class FoodListFragment extends ListFragment {
                     JSONObject photo = jsonObject.getJSONObject("photo");
                     Food food = new Food();
                     food.food_name = jsonObject.getString("food_name");
+                    food.food_name = food.food_name.substring(0,1).toUpperCase() + food.food_name.substring(1);
                     food.serving_unit = jsonObject.getString("serving_unit");
                     food.serving_qty = jsonObject.getString("serving_qty");
                     food.photo = photo.getString("thumb");
