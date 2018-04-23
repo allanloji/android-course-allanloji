@@ -33,7 +33,7 @@
                 app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
             <TextView
-                android:id="@+id/exerciseCalories"
+                android:id="@+id/exerciseCaloriesLbl"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/exerciseTime"
@@ -67,8 +67,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/foodImage"
-                android:layout_alignLeft="@+id/exerciseCalories"
-                android:layout_alignStart="@+id/exerciseCalories"
+                android:layout_alignLeft="@+id/exerciseCaloriesLbl"
+                android:layout_alignStart="@+id/exerciseCaloriesLbl"
                 android:text="Time" />
 
         </RelativeLayout>

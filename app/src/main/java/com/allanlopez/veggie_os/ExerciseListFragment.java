@@ -84,7 +84,7 @@ public class ExerciseListFragment extends ListFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Exercise exercise = exerciseArrayAdapter.getItem((int)id);
                 Intent intent = new Intent(getActivity(), ExerciseDetailActivity.class);
-                intent.putExtra("id", exercise.id);
+                intent.putExtra("exercise", exercise);
                 startActivity(intent);
             }
         });
@@ -110,7 +110,9 @@ public class ExerciseListFragment extends ListFragment {
                     JSONObject jsonObject = jsonArray.getJSONObject(0);
                     JSONObject photo = jsonObject.getJSONObject("photo");
                     Exercise exercise = new Exercise();
+                    exercise.tag_id = jsonObject.getString("tag_id");
                     exercise.name = jsonObject.getString("name");
+                    exercise.name = exercise.name.substring(0,1).toUpperCase() + exercise.name.substring(1);
                     exercise.duration_min = jsonObject.getString("duration_min");
                     exercise.met = jsonObject.getString("met");
                     exercise.nf_calories = jsonObject.getString("nf_calories");

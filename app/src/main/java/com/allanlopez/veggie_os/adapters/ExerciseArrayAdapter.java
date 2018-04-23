@@ -42,7 +42,7 @@ public class ExerciseArrayAdapter extends ArrayAdapter<Exercise> {
         }
 
         TextView textView = (TextView) convertView.findViewById(R.id.foodName);
-        TextView calories = (TextView) convertView.findViewById(R.id.exerciseCalories);
+        TextView calories = (TextView) convertView.findViewById(R.id.exerciseCaloriesLbl);
         TextView time = (TextView) convertView.findViewById(R.id.exerciseTime);
         NetworkImageView networkImageView = (NetworkImageView) convertView.findViewById(R.id.foodImage);
         textView.setText(exercise.name);

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.LruCache;
 import android.widget.TextView;
 
+import com.allanlopez.veggie_os.pojo.Exercise;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
@@ -14,16 +15,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 public class ExerciseDetailActivity extends AppCompatActivity {
 
-    private TextView name, description, calories, time;
+    private TextView name, calories, time, met;
     private NetworkImageView exerciseImg;
     private RequestQueue mQueue;
-    private String exerciseId;
     private String imgUrl;
+    private Exercise exercise;
+    private String apiUrl = "https://trackapi.nutritionix.com/v2";
+    private String xappid = "8b9ab5be";
+    private String xappkey = "48f0d8f99f2f1f990a69f309613c814d";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,31 +33,19 @@ public class ExerciseDetailActivity extends AppCompatActivity {
         name = (TextView) findViewById(R.id.foodName);
         exerciseImg = (NetworkImageView) findViewById(R.id.foodImage);
         calories = (TextView) findViewById(R.id.exerciseCalories);
-        description = (TextView) findViewById(R.id.exerciseDescription);
-        time = (TextView) findViewById(R.id.timeExercise);
+        time = (TextView) findViewById(R.id.exerciseTime);
+        met = (TextView) findViewById(R.id.met);
 
         mQueue = VolleySingleton.getInstance(this).getRequestQueue();
 
-        exerciseId = (String) getIntent().getSerializableExtra( "id");
+        exercise = (Exercise) getIntent().getSerializableExtra( "exercise");
 
-        fillExercise();
+        fillExercise(exercise);
 
 
     }
 
-    private String getJSON(){
-        try {
-            InputStream inputStream = this.getAssets().open("exercises.json");
-            int s = inputStream.available();
-            byte[] archivo = new byte[s];
-            inputStream.read(archivo);
-            inputStream.close();
-            return new String(archivo);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
+
 
     private  void LoadImage(String url){
 
@@ -78,22 +67,15 @@ public class ExerciseDetailActivity extends AppCompatActivity {
         exerciseImg.setImageUrl(url, imageLoader);
     }
 
-    private void fillExercise(){
-        try{
-            JSONObject jsonObject = new JSONObject(getJSON());
-            JSONArray jsonArray = jsonObject.getJSONArray("exercise");
-            JSONObject jsonObject01 = jsonArray.getJSONObject(Integer.parseInt(exerciseId));
-            name.setText(jsonObject01.getString("name"));
-            calories.setText(jsonObject01.getString("calories"));
-            imgUrl = jsonObject01.getString("imgUrl");
-            description.setText(jsonObject01.getString("description"));
-            time.setText(jsonObject01.getString("time"));
+    private void fillExercise(Exercise exercise){
+        name.setText(exercise.name);
+        calories.setText(exercise.nf_calories);
+        imgUrl = exercise.photo;
+        time.setText(exercise.duration_min);
+        met.setText(exercise.met);
 
-            LoadImage(imgUrl);
+        LoadImage(imgUrl);
 
-        }catch (JSONException e) {
-            e.printStackTrace();
-        }
 
 
 
