@@ -8,10 +8,19 @@
     tools:context="com.allanlopez.veggie_os.MenuActivity"
     tools:showIn="@layout/app_bar_menu">
 
+    <com.mancj.materialsearchbar.MaterialSearchBar
+        android:id="@+id/searchBar"
+        style="@style/MaterialSearchBarLight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:mt_hint="Custom hint"
+        app:mt_maxSuggestionsCount="10"
+        app:mt_speechMode="true" />
+
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:background="@android:color/background_light"
         app:itemIconTint="@android:color/darker_gray"
         app:itemTextColor="@color/colorStatusBar"
@@ -23,9 +32,13 @@
     <FrameLayout
         android:id="@+id/food"
         android:layout_width="395dp"
-        android:layout_height="622dp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
+        android:layout_height="576dp"
+        android:layout_marginTop="14dp"
+        app:layout_constraintBottom_toTopOf="@+id/navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchBar">
 
     </FrameLayout>
 

@@ -1,9 +1,12 @@
 package com.allanlopez.veggie_os;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.LruCache;
+import android.view.View;
 import android.widget.TextView;
 
 import com.allanlopez.veggie_os.pojo.Exercise;
@@ -75,10 +78,11 @@ public class ExerciseDetailActivity extends AppCompatActivity {
         met.setText(exercise.met);
 
         LoadImage(imgUrl);
+    }
 
-
-
-
-
+    public void MET(View view){
+        Uri uri = Uri.parse("https://en.wikipedia.org/wiki/Metabolic_equivalent");
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
     }
 }
