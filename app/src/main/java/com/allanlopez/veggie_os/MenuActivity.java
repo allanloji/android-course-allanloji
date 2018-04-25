@@ -196,7 +196,6 @@ public class MenuActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             // Handle the camera action
-        } else if (id == R.id.nav_about) {
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
