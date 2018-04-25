@@ -2,6 +2,7 @@ package com.allanlopez.veggie_os;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Debug;
 import android.support.annotation.NonNull;
@@ -19,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.allanlopez.veggie_os.adapters.CustomSuggestionAdapter;
 import com.allanlopez.veggie_os.pojo.Food;
@@ -145,13 +147,17 @@ public class MenuActivity extends AppCompatActivity
 
     }
 
-    public void SearchResults(CustomSuggestionAdapter customSuggestionAdapter){
-
-
-    }
 
     public void ClickFood(View view){
-        Log.e("CLICK", "se hizo click");
+        Food food = new Food();
+        TextView name = (TextView)view.findViewById(R.id.searchTitle);
+        TextView photo = (TextView)view.findViewById(R.id.searchImage);
+        food.food_name = name.getText().toString();
+        food.photo = photo.getText().toString();
+        Intent intent = new Intent(this, FoodDetailActivity.class);
+        intent.putExtra("food_name", food.food_name);
+        intent.putExtra("food_photo", food.photo);
+        startActivity(intent);
     }
 
 
@@ -222,6 +228,7 @@ public class MenuActivity extends AppCompatActivity
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             Food food = new Food();
                             food.food_name = jsonObject.getString("food_name");
+                            food.photo = jsonObject.getJSONObject("photo").getString("thumb");
                             food.serving_qty = jsonObject.getString("serving_qty");
                             food.serving_unit = jsonObject.getString("serving_unit");
                             suggestions.add(food);

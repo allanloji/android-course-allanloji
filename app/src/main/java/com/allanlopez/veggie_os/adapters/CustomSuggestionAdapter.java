@@ -30,6 +30,7 @@ public class CustomSuggestionAdapter extends SuggestionsAdapter<Food, CustomSugg
         holder.title.setText(suggestion.food_name);
         holder.subtitle.setText(suggestion.serving_qty);
         holder.unit.setText(suggestion.serving_unit);
+        holder.photo.setText(suggestion.photo);
     }
 
     @Override
@@ -68,12 +69,14 @@ public class CustomSuggestionAdapter extends SuggestionsAdapter<Food, CustomSugg
         protected TextView title;
         protected TextView subtitle;
         protected TextView unit;
+        protected TextView photo;
 
         public SuggestionHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.searchTitle);
             subtitle = (TextView) itemView.findViewById(R.id.searchQuantity);
             unit = (TextView) itemView.findViewById(R.id.searchUnit);
+            photo = (TextView) itemView.findViewById(R.id.searchImage);
         }
 
 
