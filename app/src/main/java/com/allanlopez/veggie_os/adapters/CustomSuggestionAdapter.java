@@ -1,4 +1,4 @@
-package com.allanlopez.veggie_os;
+package com.allanlopez.veggie_os.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.TextView;
 
+import com.allanlopez.veggie_os.R;
 import com.allanlopez.veggie_os.pojo.Food;
 import com.mancj.materialsearchbar.adapter.SuggestionsAdapter;
 

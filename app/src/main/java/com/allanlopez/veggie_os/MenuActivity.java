@@ -2,13 +2,10 @@ package com.allanlopez.veggie_os;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Debug;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -20,25 +17,27 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.view.WindowManager;
 
-import com.allanlopez.veggie_os.adapters.FoodArrayAdapter;
+import com.allanlopez.veggie_os.adapters.CustomSuggestionAdapter;
 import com.allanlopez.veggie_os.pojo.Food;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -46,6 +45,11 @@ public class MenuActivity extends AppCompatActivity
     private MaterialSearchBar searchBar;
     private List<Food> suggestions = new ArrayList<>();
     private CustomSuggestionAdapter customSuggestionsAdapter;
+    private RequestQueue mQueue;
+
+    private String apiUrl = "https://trackapi.nutritionix.com/v2/search/instant";
+    private String xappid = "8b9ab5be";
+    private String xappkey = "48f0d8f99f2f1f990a69f309613c814d";
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -79,6 +83,9 @@ public class MenuActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -97,6 +104,8 @@ public class MenuActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.food, new FoodListFragment());
         fragmentTransaction.commit();
+
+        mQueue = VolleySingleton.getInstance(this).getRequestQueue();
 
         searchBar = (MaterialSearchBar) findViewById(R.id.searchBar);
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -119,16 +128,25 @@ public class MenuActivity extends AppCompatActivity
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 Log.d("LOG_TAG", getClass().getSimpleName() + " text changed " + searchBar.getText());
+                try {
+                    jsonFood(apiUrl + "?query=" + searchBar.getText(),customSuggestionsAdapter);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 // send the entered text to our filter and let it manage everything
                 customSuggestionsAdapter.getFilter().filter(searchBar.getText());
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-
             }
 
         });
+
+    }
+
+    public void SearchResults(CustomSuggestionAdapter customSuggestionAdapter){
+
 
     }
 
@@ -178,6 +196,63 @@ public class MenuActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    /*----------------------JSON------------------------------*/
+    /* Json WEB*/
+    //-----GET Instant
+    private void jsonFood(String url, final CustomSuggestionAdapter customSuggestionAdapter) throws JSONException {
+        JSONObject postparams=new JSONObject();
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
+                url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    List<Food> suggestions = new ArrayList<>();
+                    JSONArray jsonArray = response.getJSONArray("common");
+                    int index = 0;
+                    if(jsonArray.length() != 0) {
+                        if(jsonArray.length() < 10){
+                            index = jsonArray.length();
+                        }else {
+                            index = 10;
+                        }
+                        for (int i = 0; i < index; i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            Food food = new Food();
+                            food.food_name = jsonObject.getString("food_name");
+                            food.serving_qty = jsonObject.getString("serving_qty");
+                            food.serving_unit = jsonObject.getString("serving_unit");
+                            suggestions.add(food);
+                        }
+
+                        customSuggestionAdapter.setSuggestions(suggestions);
+                        searchBar.setCustomSuggestionAdapter(customSuggestionAdapter);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        })
+        {
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("x-app-id", xappid);
+                headers.put("x-app-key", xappkey);
+                return headers;
+            }
+        };
+        mQueue.add(request);
     }
 
 
