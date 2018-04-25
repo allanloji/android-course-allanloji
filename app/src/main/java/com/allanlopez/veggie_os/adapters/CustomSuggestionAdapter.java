@@ -29,6 +29,7 @@ public class CustomSuggestionAdapter extends SuggestionsAdapter<Food, CustomSugg
     public void onBindSuggestionHolder(Food suggestion, SuggestionHolder holder, int position) {
         holder.title.setText(suggestion.food_name);
         holder.subtitle.setText(suggestion.serving_qty);
+        holder.unit.setText(suggestion.serving_unit);
     }
 
     @Override
@@ -66,11 +67,13 @@ public class CustomSuggestionAdapter extends SuggestionsAdapter<Food, CustomSugg
     static class SuggestionHolder extends RecyclerView.ViewHolder {
         protected TextView title;
         protected TextView subtitle;
+        protected TextView unit;
 
         public SuggestionHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.searchTitle);
-            subtitle = (TextView) itemView.findViewById(R.id.searchSubtitle);
+            subtitle = (TextView) itemView.findViewById(R.id.searchQuantity);
+            unit = (TextView) itemView.findViewById(R.id.searchUnit);
         }
 
 

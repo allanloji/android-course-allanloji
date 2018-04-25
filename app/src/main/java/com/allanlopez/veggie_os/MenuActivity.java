@@ -111,9 +111,9 @@ public class MenuActivity extends AppCompatActivity
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         final CustomSuggestionAdapter customSuggestionsAdapter = new CustomSuggestionAdapter(inflater);
         List<Food> suggestions = new ArrayList<>();
-        for (int i = 1; i < 11; i++) {
+        for (int i = 0; i < 10; i++) {
             Food food = new Food();
-            food.food_name = "Hola";
+            food.food_name = "";
             suggestions.add(food);
         }
 
