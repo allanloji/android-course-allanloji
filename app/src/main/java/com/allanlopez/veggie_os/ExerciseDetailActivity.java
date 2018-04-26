@@ -72,9 +72,9 @@ public class ExerciseDetailActivity extends AppCompatActivity {
 
     private void fillExercise(Exercise exercise){
         name.setText(exercise.name);
-        calories.setText(exercise.nf_calories);
+        calories.setText(exercise.nf_calories + " kcal");
         imgUrl = exercise.photo;
-        time.setText(exercise.duration_min);
+        time.setText(exercise.duration_min + " min");
         met.setText(exercise.met);
 
         LoadImage(imgUrl);
