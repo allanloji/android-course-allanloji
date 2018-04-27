@@ -8,4 +8,6 @@
     <color name="light_gray">#e1e1e1</color>
     <color name="colorHeader">#8fcc76</color>
     <color name="colorStatusBar">#6faf58</color>
+    <color name="colorTransparentWhite">#cccccc</color>
+    <color name="colorWhite">#FFFFFF</color>
 </resources>
