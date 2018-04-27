@@ -33,9 +33,9 @@ public class SliderAdapter extends PagerAdapter{
     };
 
     public String[] slide_descs = {
-            "Get nutritional facts about all kinds of food",
-            "Eat more healthy based in the calories and exercise you do",
-            "Enjoy the benefits of a more healthy life"
+            "Get nutritional facts about all kinds of food. Search in natural Language in our library of all kinds of food.",
+            "Eat more healthy based in the calories you and see how muhc exercise you need to do to burn that calories!",
+            "Enjoy the benefits of a more healthy life!"
     };
 
     @Override

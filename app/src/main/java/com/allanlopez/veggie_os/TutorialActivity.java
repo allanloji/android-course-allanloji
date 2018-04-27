@@ -1,6 +1,7 @@
 package com.allanlopez.veggie_os;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
@@ -45,6 +46,10 @@ public class TutorialActivity extends Activity {
         mNextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(mCurrentPage == mDots.length -1){
+                    Intent it = new Intent( TutorialActivity.this, MenuActivity.class);
+                    startActivity(it);
+                }
                 mSlideViewPager.setCurrentItem(mCurrentPage + 1);
             }
         });
